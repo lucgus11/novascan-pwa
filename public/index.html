@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a3a2a" />
+  <meta name="description" content="Analysez la transformation de vos aliments avec le système NOVA" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="NovaScan" />
+
+  <title>NovaScan — Qualité Alimentaire</title>
+
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/css/app.css" />
+</head>
+<body>
+
+  <!-- ══ SPLASH / LOADER ══ -->
+  <div id="splash" class="splash">
+    <div class="splash-logo">
+      <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+        <circle cx="32" cy="32" r="30" stroke="#c8e63c" stroke-width="2.5"/>
+        <path d="M20 44 C20 28 28 20 32 20 C36 20 44 28 44 44" stroke="#c8e63c" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <circle cx="32" cy="20" r="3" fill="#c8e63c"/>
+      </svg>
+    </div>
+    <h1 class="splash-title">NovaScan</h1>
+    <p class="splash-sub">Qualité alimentaire NOVA</p>
+    <div class="splash-loader"></div>
+  </div>
+
+  <!-- ══ APP SHELL ══ -->
+  <div id="app" class="app hidden">
+
+    <!-- Navigation basse -->
+    <nav class="bottom-nav">
+      <button class="nav-btn active" data-page="scan" aria-label="Scanner">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M3 9V5a2 2 0 012-2h4M3 15v4a2 2 0 002 2h4M15 3h4a2 2 0 012 2v4M15 21h4a2 2 0 002-2v-4"/>
+          <rect x="8" y="8" width="8" height="8" rx="1"/>
+        </svg>
+        <span>Scanner</span>
+      </button>
+      <button class="nav-btn" data-page="history" aria-label="Historique">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 7v5l3 3"/>
+        </svg>
+        <span>Historique</span>
+      </button>
+      <button class="nav-btn" data-page="info" aria-label="À propos">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 8v.01M12 11v5"/>
+        </svg>
+        <span>NOVA</span>
+      </button>
+    </nav>
+
+    <!-- ── PAGE SCAN ── -->
+    <main id="page-scan" class="page active">
+      <header class="page-header">
+        <div class="header-brand">
+          <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="32" r="30" stroke="#c8e63c" stroke-width="2.5"/>
+            <path d="M20 44 C20 28 28 20 32 20 C36 20 44 28 44 44" stroke="#c8e63c" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <circle cx="32" cy="20" r="3" fill="#c8e63c"/>
+          </svg>
+          <span>NovaScan</span>
+        </div>
+        <button id="btn-open-settings" class="btn-icon" aria-label="Paramètres" style="margin-left:auto;margin-right:4px">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          </button>
+          <div id="connection-badge" class="badge-online">
+          <span class="badge-dot"></span>
+          <span class="badge-label">En ligne</span>
+        </div>
+      </header>
+
+      <!-- Tabs scan / saisie -->
+      <div class="scan-tabs">
+        <button class="tab-btn active" data-tab="camera">📷 Caméra OCR</button>
+        <button class="tab-btn" data-tab="text">✏️ Texte</button>
+      </div>
+
+      <!-- Tab Caméra -->
+      <div id="tab-camera" class="tab-content active">
+        <div class="camera-container">
+          <div class="camera-frame">
+            <video id="camera-video" autoplay playsinline muted></video>
+            <canvas id="camera-canvas" class="hidden"></canvas>
+            <div class="camera-overlay">
+              <div class="scan-corners">
+                <span class="corner tl"></span>
+                <span class="corner tr"></span>
+                <span class="corner bl"></span>
+                <span class="corner br"></span>
+              </div>
+              <p class="scan-hint">Pointez vers la liste des ingrédients</p>
+            </div>
+          </div>
+
+          <div class="camera-controls">
+            <button id="btn-start-camera" class="btn-primary btn-lg">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+              Activer la caméra
+            </button>
+            <button id="btn-capture" class="btn-primary btn-lg hidden">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+              Capturer & Analyser
+            </button>
+          </div>
+
+          <!-- OCR Progress -->
+          <div id="ocr-progress" class="ocr-progress hidden">
+            <div class="ocr-bar"><div id="ocr-bar-fill" class="ocr-bar-fill"></div></div>
+            <p id="ocr-status">Extraction du texte…</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Texte -->
+      <div id="tab-text" class="tab-content hidden">
+        <div class="text-input-zone">
+          <label class="field-label" for="ingredients-raw">Coller ou taper la liste des ingrédients</label>
+          <textarea
+            id="ingredients-raw"
+            class="ingredients-textarea"
+            rows="7"
+            placeholder="Ex: Farine de blé, eau, sucre, huile de palme, arôme artificiel, E471, E322…"
+          ></textarea>
+          <button id="btn-analyze-text" class="btn-primary btn-full">
+            Analyser
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- ── PAGE RÉSULTAT ── -->
+    <main id="page-result" class="page hidden">
+      <header class="page-header">
+        <button id="btn-back-result" class="btn-icon" aria-label="Retour">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        </button>
+        <h2 class="page-title">Résultat</h2>
+        <button id="btn-save" class="btn-icon btn-save-icon" aria-label="Sauvegarder">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg>
+        </button>
+      </header>
+
+      <!-- Score visuel -->
+      <section class="score-section">
+        <div class="score-display">
+          <div class="score-ring-container">
+            <svg class="score-ring" width="180" height="180" viewBox="0 0 180 180">
+              <circle class="ring-bg" cx="90" cy="90" r="78" stroke-width="10"/>
+              <circle id="ring-fill" class="ring-fill" cx="90" cy="90" r="78" stroke-width="10"
+                stroke-dasharray="490" stroke-dashoffset="490" transform="rotate(-90 90 90)"/>
+            </svg>
+            <div class="score-center">
+              <span id="score-value" class="score-value">—</span>
+              <span class="score-label">/10</span>
+            </div>
+          </div>
+
+          <div class="score-meta">
+            <div id="nova-badge" class="nova-badge">NOVA —</div>
+            <div id="score-percent" class="score-percent">—%</div>
+            <div id="score-verdict" class="score-verdict"></div>
+          </div>
+        </div>
+
+        <!-- Jauge de transformation -->
+        <div class="transform-gauge">
+          <div class="gauge-labels">
+            <span>Brut</span>
+            <span>Ultra-transformé</span>
+          </div>
+          <div class="gauge-bar">
+            <div id="gauge-fill" class="gauge-fill"></div>
+            <div id="gauge-cursor" class="gauge-cursor"></div>
+          </div>
+        </div>
+
+        <div id="analysis-source" class="analysis-source"></div>
+      </section>
+
+      <!-- Marqueurs détectés -->
+      <section class="markers-section">
+        <h3 class="section-title">Marqueurs détectés</h3>
+        <div id="markers-list" class="markers-list"></div>
+      </section>
+
+      <!-- Fiche produit éditable -->
+      <section class="product-form-section">
+        <h3 class="section-title">Fiche produit</h3>
+        <div class="product-form">
+          <div class="field-group">
+            <label class="field-label" for="product-name">Nom du produit</label>
+            <input type="text" id="product-name" class="field-input" placeholder="Ex: Pain de mie complet" />
+          </div>
+          <div class="field-row">
+            <div class="field-group">
+              <label class="field-label" for="product-store">Magasin</label>
+              <input type="text" id="product-store" class="field-input" placeholder="Carrefour…" />
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="product-category">Catégorie</label>
+              <select id="product-category" class="field-input field-select">
+                <option value="">— Catégorie —</option>
+                <option>Boulangerie / Céréales</option>
+                <option>Produits laitiers</option>
+                <option>Viandes / Poissons</option>
+                <option>Snacks / Confiseries</option>
+                <option>Boissons</option>
+                <option>Plats préparés</option>
+                <option>Fruits / Légumes</option>
+                <option>Condiments / Sauces</option>
+                <option>Autre</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="product-ingredients">
+              Ingrédients
+              <span class="label-hint">Modifiez pour recalculer</span>
+            </label>
+            <textarea id="product-ingredients" class="field-input field-textarea" rows="5"
+              placeholder="Liste des ingrédients…"></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="product-notes">Notes personnelles</label>
+            <textarea id="product-notes" class="field-input field-textarea" rows="2"
+              placeholder="Vos remarques…"></textarea>
+          </div>
+        </div>
+
+        <button id="btn-recalculate" class="btn-secondary btn-full">
+          ↻ Recalculer avec les ingrédients modifiés
+        </button>
+      </section>
+    </main>
+
+    <!-- ── PAGE HISTORIQUE ── -->
+    <main id="page-history" class="page hidden">
+      <header class="page-header">
+        <h2 class="page-title">Historique</h2>
+        <button id="btn-clear-history" class="btn-ghost btn-sm">Tout effacer</button>
+      </header>
+      <div id="history-empty" class="empty-state hidden">
+        <div class="empty-icon">📦</div>
+        <p>Aucun produit scanné pour l'instant.</p>
+        <p class="empty-sub">Scannez votre premier produit !</p>
+      </div>
+      <div id="history-list" class="history-list"></div>
+    </main>
+
+    <!-- ── PAGE INFO ── -->
+    <main id="page-info" class="page hidden">
+      <header class="page-header">
+        <h2 class="page-title">Classification NOVA</h2>
+      </header>
+      <div class="info-content">
+        <div class="info-card">
+          <div class="nova-pill nova-1">NOVA 1</div>
+          <h4>Aliments non transformés</h4>
+          <p>Fruits, légumes, viandes fraîches, œufs, lait nature. Score proche de 10/10.</p>
+        </div>
+        <div class="info-card">
+          <div class="nova-pill nova-2">NOVA 2</div>
+          <h4>Ingrédients culinaires</h4>
+          <p>Huile, beurre, sucre, sel, farine. Utilisés pour cuisiner des aliments NOVA 1.</p>
+        </div>
+        <div class="info-card">
+          <div class="nova-pill nova-3">NOVA 3</div>
+          <h4>Aliments transformés</h4>
+          <p>Conserves, fromages affinés, charcuteries simples, pain artisanal. Quelques additifs.</p>
+        </div>
+        <div class="info-card">
+          <div class="nova-pill nova-4">NOVA 4</div>
+          <h4>Aliments ultra-transformés</h4>
+          <p>Présence d'additifs, arômes artificiels, émulsifiants, sirops de glucose, etc. Score bas.</p>
+        </div>
+
+        <div class="info-divider"></div>
+
+        <h3 class="info-section-title">Comment NovaScan calcule le score ?</h3>
+        <div class="info-algo">
+          <div class="algo-step">
+            <span class="algo-num">01</span>
+            <div>
+              <strong>Détection des additifs</strong>
+              <p>Codes E-xxx, marqueurs d'ultra-transformation (sirop de glucose, amidon modifié…)</p>
+            </div>
+          </div>
+          <div class="algo-step">
+            <span class="algo-num">02</span>
+            <div>
+              <strong>Coefficients de pénalité</strong>
+              <p>Chaque marqueur applique une pénalité pondérée selon sa dangerosité NOVA.</p>
+            </div>
+          </div>
+          <div class="algo-step">
+            <span class="algo-num">03</span>
+            <div>
+              <strong>Score final sur 10</strong>
+              <p>100% = aucun marqueur (NOVA 1). Chaque pénalité déduit des points.</p>
+            </div>
+          </div>
+          <div class="algo-step">
+            <span class="algo-num">04</span>
+            <div>
+              <strong>Mode en ligne</strong>
+              <p>L'IA Groq affine l'analyse avec compréhension contextuelle des ingrédients.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-divider"></div>
+        <p class="info-credit">Basé sur les travaux de Carlos A. Monteiro (USP, Brésil) — Classification NOVA 2010–2019.</p>
+        <p class="info-version">NovaScan v1.0 — PWA</p>
+      </div>
+    </main>
+
+  </div><!-- /app -->
+
+  <!-- Toast notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="/js/db.js"></script>
+  <script src="/js/nova-local.js"></script>
+  <script src="/js/groq-api.js"></script>
+  <script src="/js/camera.js"></script>
+  <script src="/js/settings.js"></script>
+  <script src="/js/settings.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

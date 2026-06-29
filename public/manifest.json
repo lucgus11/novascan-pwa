@@ -1,0 +1,49 @@
+{
+  "name": "NovaScan — Qualité Alimentaire",
+  "short_name": "NovaScan",
+  "description": "Analysez le degré de transformation de vos aliments avec le système NOVA",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#1a3a2a",
+  "theme_color": "#1a3a2a",
+  "lang": "fr",
+  "categories": ["food", "health", "lifestyle"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/scan.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Scanner un produit"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Scanner",
+      "short_name": "Scan",
+      "url": "/?page=scan",
+      "description": "Scanner un nouveau produit"
+    },
+    {
+      "name": "Historique",
+      "short_name": "Historique",
+      "url": "/?page=history",
+      "description": "Voir les produits scannés"
+    }
+  ]
+}
